@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import '@/pages/mypage/Mypage.css';
-import Header from '@/components/header/Header';
-import { AiOutlineHeart } from 'react-icons/ai';
 import { User } from 'firebase/auth';
 import Content from '@/components/Content';
 import { Link } from 'react-router-dom';
@@ -21,7 +19,6 @@ const Mypage = () => {
 
   return (
     <>
-      <Header onUserChange={handleUserChange} />
       <div className="mypageContainer">
         {userInfo && userInfo.displayName ? <h3>{userInfo.displayName} 님이 좋아하신 공연</h3> : <Link to="/" />}
         {isLoading && <p>Loading...</p>}

@@ -1,29 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { IPerformancePayload } from '@/hooks/usePerformances';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getPerformance, IPerformancePayload } from '@/hooks/usePerformances';
 import { fetchPerformances } from '@/apis/Performances.api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '@/pages/detail/Detail.css';
-import Header from '@/components/header/Header';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useLikes } from '@/hooks/useLikes';
-
-export const usePerformances = ({ codename, title, date }: { codename?: string; title?: string; date?: string }) => {
-  const {
-    data: performances = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery<IPerformancePayload[]>({
-    queryKey: ['performances', codename, title, date],
-    queryFn: () => fetchPerformances(codename, title, undefined, date),
-  });
-  return { performances, isLoading, isError, refetch };
-};
 
 const Detail: React.FC = () => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
@@ -36,7 +22,7 @@ const Detail: React.FC = () => {
     isLoading,
     isError,
     refetch,
-  } = usePerformances({
+  } = getPerformance({
     codename,
     title,
     date,
@@ -105,7 +91,15 @@ const Detail: React.FC = () => {
   };
 
   // 로딩 및 에러 상태 처리
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div className="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    );
   if (isError) return <div>데이터를 불러오는 데 문제가 발생했습니다.</div>;
 
   // 공연 정보가 없거나, performances 배열이 비어있는 경우 처리
@@ -115,7 +109,6 @@ const Detail: React.FC = () => {
 
   return (
     <>
-      <Header onUserChange={handleUserChange} />
       <div className="detailContainer">
         <img className="Poster" src={performance.image} alt="Poster" />
         <div className="eventText">

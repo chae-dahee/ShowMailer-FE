@@ -53,6 +53,16 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 50%;
+  width: 90%;
   box-sizing: border-box;
+}
+
+.reLoad {
+  cursor: pointer;
+  text-decoration: none;
+  color: #eb6b83;
+  width: 4%;
+  height: auto;
+  margin-left: 5px;
+  /* border: 1px solid #ccc; */
 }

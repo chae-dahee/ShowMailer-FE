@@ -1,30 +1,58 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { fetchPerformances } from '@/apis/Performances.api';
 
 export interface IPerformancePayload {
-  title: string;
-  image: string;
-  codename: string;
-  date: string;
-  [key: string]: any; // 추가 속성들을 허용
+  title?: string;
+  image?: string;
+  codename?: string;
+  date?: string;
+  org_link?: string;
+  place?: string;
 }
 
-export const usePerformances = ({ codename, title, page = 1 }: { codename?: string; title?: string; page: number }) => {
-  const res = useQuery<IPerformancePayload[]>({
-    queryKey: [
-      'performances',
-      {
-        codename,
-        title,
-        page,
-      },
-    ],
-    queryFn: () => fetchPerformances(codename, title, page),
-    placeholderData: keepPreviousData,
+export const getPerformances = ({ codename, title }: IPerformancePayload) => {
+  const { data, fetchNextPage, hasNextPage, refetch, isLoading, isError, error } = useInfiniteQuery({
+    queryKey: ['products'],
+    queryFn: ({ pageParam = 1 }) => fetchPerformances(codename, title, pageParam as number),
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      return allPages.length + 1;
+    },
+    initialPageParam: 1,
+    select: (data) => ({
+      pages: data.pages.map((page) =>
+        page.map((item) => ({
+          title: item.title,
+          image: item.image,
+          codename: item.codename,
+          date: item.date,
+        })),
+      ),
+      pageParams: data.pageParams,
+    }),
   });
-
   return {
-    ...res,
-    data: res.data || [],
+    performance: data?.pages.flat() || [],
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+    isLoading,
+    isError,
+    error,
   };
+};
+
+export const getPerformance = ({ codename, title, date }: IPerformancePayload) => {
+  const {
+    data: performances = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<IPerformancePayload[]>({
+    queryKey: ['performances', codename, title, date],
+    queryFn: () => fetchPerformances(codename, title, undefined, date),
+  });
+  return { performances, isLoading, isError, refetch };
 };
