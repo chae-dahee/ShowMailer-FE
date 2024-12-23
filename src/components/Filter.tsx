@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@/components/Filter.css';
+import { TbReload } from 'react-icons/tb';
 
 interface FilterProps {
-  categories: string[]; // 필터링할 카테고리 목록
   selectedCategory: string; // 현재 선택된 카테고리
   onCategoryChange: (category: string) => void; // 카테고리 변경 시 호출되는 함수
   onSearchChange: (event: string) => void; // 검색어 변경 시 호출되는 함수
@@ -36,7 +36,7 @@ const Filter: React.FC<FilterProps> = ({ selectedCategory, onCategoryChange, onS
     setDropdownView((prev) => !prev);
   };
 
-  const handleDropdownItemClick = (category: string) => {
+  const handleCategoryClick = (category: string) => {
     onCategoryChange(category);
     setDropdownView(false);
   };
@@ -49,7 +49,6 @@ const Filter: React.FC<FilterProps> = ({ selectedCategory, onCategoryChange, onS
       }
     }
   }, []);
-
   useEffect(() => {
     document.addEventListener('mousedown', handleDocumentClick);
     return () => {
@@ -57,18 +56,15 @@ const Filter: React.FC<FilterProps> = ({ selectedCategory, onCategoryChange, onS
     };
   }, [handleDocumentClick]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-  };
-
+  //검색
   const handleSearch = () => {
-    onSearchChange(searchTerm); // 버튼 클릭 시 상위 컴포넌트에 검색어 전달
+    onSearchChange(searchTerm);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearch(); // 엔터 키 입력 시 검색어 전달
+      event.preventDefault();
+      onSearchChange(searchTerm);
     }
   };
 
@@ -83,25 +79,27 @@ const Filter: React.FC<FilterProps> = ({ selectedCategory, onCategoryChange, onS
             <li
               key={category}
               className={`dropdownItem ${selectedCategory === category ? 'selected' : ''}`}
-              onClick={() => handleDropdownItemClick(category)}
+              onClick={() => handleCategoryClick(category)}
             >
               {category}
             </li>
           ))}
         </ul>
       )}
-
-      <input
-        type="text"
-        className="searchInput"
-        placeholder="제목 검색..."
-        value={searchTerm}
-        onChange={handleSearchChange} // 상태 업데이트
-        onKeyDown={handleKeyDown} // 엔터 키 입력 감지
-      />
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          className="searchInput"
+          placeholder="제목 검색..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // 상태 업데이트
+          onKeyDown={handleEnter} // 엔터 키 입력 감지
+        />
+      </form>
       <button className="searchBtn" onClick={handleSearch} style={{ backgroundColor: '#E78295', color: 'white' }}>
         검색
       </button>
+      <TbReload className="reLoad" onClick={() => window.location.reload()} />
     </div>
   );
 };
