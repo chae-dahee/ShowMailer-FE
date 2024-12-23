@@ -3,9 +3,9 @@ import '@/components/Filter.css';
 import { TbReload } from 'react-icons/tb';
 
 interface FilterProps {
-  selectedCategory: string; // 현재 선택된 카테고리
-  onCategoryChange: (category: string) => void; // 카테고리 변경 시 호출되는 함수
-  onSearchChange: (event: string) => void; // 검색어 변경 시 호출되는 함수
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+  onSearchChange: (event: string) => void;
 }
 
 const categories = [
