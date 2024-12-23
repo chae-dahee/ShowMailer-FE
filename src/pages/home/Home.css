@@ -1,17 +1,18 @@
-/* home.css */
 
 .banner {
-  background-color: #efefef; /* 로고와 유사한 배경색 */
-  color: black; /* 텍스트 색상 */
+  background-color: #efefef;
+  color: black; 
   font-weight: bold;
   font-size: 20px;
   padding: 20px;
   text-align: left;
   font-size: 1.2em;
   margin-bottom: 0.5em;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .highlight {
-  color: #eb6b83; /* 강조할 보색 */
+  color: #eb6b83; 
 }
+
+
