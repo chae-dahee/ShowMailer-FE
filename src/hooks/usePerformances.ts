@@ -3,7 +3,7 @@ import { fetchPerformances } from '@/apis/Performances.api';
 
 export interface IPerformancePayload {
   title?: string;
-  image?: string;
+  image?: string | undefined;
   codename?: string;
   date?: string;
   org_link?: string;
