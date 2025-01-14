@@ -23,7 +23,9 @@ https://dev-alarm-fe.vercel.app/
 - firebase auth
 - js-cookie
 - axios
-- react-query
+- TanStack-Query
+- useInfinetequery
+- Intersection Observer API
 - react-icons
 - toastify
 
