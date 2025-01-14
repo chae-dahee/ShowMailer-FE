@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import '@/routes/Layout.css';
-import BgImg from '@/assets/imgs/BgImg.png';
+import BgImg from '@/assets/imgs/BgImg.webp';
 
 interface LayoutProps {
   children: ReactNode;

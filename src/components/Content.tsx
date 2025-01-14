@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import '@/components/Content.css';
 import { useNavigate } from 'react-router-dom';
 import { IPerformancePayload } from '@/hooks/usePerformances';
@@ -54,17 +54,24 @@ const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, is
                   loading="lazy"
                   ref={(el) => {
                     if (el && !imgLoaded[index]) {
-                      const observer = new IntersectionObserver((entries) => {
-                        entries.forEach((entry) => {
-                          if (entry.isIntersecting) {
-                            handleImageLoad(index);
-                            observer.unobserve(el);
-                          }
-                        });
-                      });
+                      const observer = new IntersectionObserver(
+                        (entries) => {
+                          entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                              handleImageLoad(index);
+                              observer.unobserve(el);
+                            }
+                          });
+                        },
+                        {
+                          threshold: 0.25,
+                        },
+                      );
                       observer.observe(el);
                     }
                   }}
+                  style={{ width: '7.5rem', height: 'auto', maxHeight: '10.5rem' }}
+
                 />
                 <h3>{performance.title}</h3>
                 <p>{performance.codename}</p>
