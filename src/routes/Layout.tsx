@@ -10,7 +10,7 @@ interface LayoutProps {
 const Layout: React.FunctionComponent<LayoutProps> = ({ children }) => {
   return (
     <div className="pcOverlay">
-      <img src={BgImg} className="pcImage" alt="PC Description" />
+      <img src={BgImg} className="pcImage" alt="PC Description" loading="lazy" />
       <div className="appContainer">{children}</div>
     </div>
   );

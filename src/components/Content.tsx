@@ -70,8 +70,7 @@ const Content: React.FC<ContentProps> = ({ performances, target, hasNextPage, is
                       observer.observe(el);
                     }
                   }}
-                  style={{ width: '7.5rem', height: 'auto', maxHeight: '10.5rem' }}
-
+                  style={{ width: '7.5rem', height: '10.5rem' }}
                 />
                 <h3>{performance.title}</h3>
                 <p>{performance.codename}</p>
